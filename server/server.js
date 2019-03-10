@@ -13,6 +13,18 @@ var io = socketIO(server);
 //-----live connections-----\\
 io.on('connection', (socket) => {
     console.log('New user connected.');
+
+    socket.emit('newMessage', {
+        from: 'Admin',
+        message: 'Welcome to the chat room',
+        timeStamp: new Date().getTime()
+    });
+
+    socket.broadcast.emit('newMessage', {
+        from: 'admin',
+        message: 'New user joined to the channel',
+        timeStamp: new Date().getTime()
+    });
     
     socket.on('createMessage', (message) => {
         console.log('Broadcasting message');
@@ -21,6 +33,11 @@ io.on('connection', (socket) => {
             message: message.message,
             timeStamp: new Date().getTime()
         });
+        // socket.broadcast.emit('newMessage', {
+        //     from: message.from,
+        //     message: message.message,
+        //     timeStamp: new Date().getTime()
+        // });
     });
 
     socket.on('disconnect', () => console.log('user disconencted'));
