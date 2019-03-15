@@ -25,6 +25,22 @@ class Users {
         var users = this.users.filter((user) => user.room === room);
         return users.map((user) => user.name);
     }
+
+    isAvailableName(str){
+        return this.users.filter((user) => user.name === str)[0];
+    }
+
+    getActiveRooms(){
+        var rooms = this.users.map((user) => user.room);
+        var retRooms = [];
+        rooms.forEach(element => {
+            if(!retRooms.filter((room) => room === element)[0]){
+                retRooms.push(element);
+            }
+        });
+        return retRooms;
+
+    }
 }
 
 module.exports = {Users};

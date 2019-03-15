@@ -19,14 +19,25 @@
                 </div>
                 <div class="form-field">
                     <label>Room name</label>
-                    <input type="text" name="room" />
+                    <input id="myInput" autocomplete="off" type="text" list="suggestions" name="room" />
+                    <datalist id="suggestions">
+                        <option value="room1">
+                        <option value="room2">
+                        <option value="room3">
+                        <option value="room4">
+                        <option value="room5">
+                    </datalist>
                 </div>
                 <div class="form-field">
                     <button>Join</button>
                 </div>
             </form>
         </div>
-        
+
+
+        <script src="/js/libs/jquery-3.3.1.min.js"></script>
+        <script src="/js/index.js"></script>
+
     </body>
 
 </html>

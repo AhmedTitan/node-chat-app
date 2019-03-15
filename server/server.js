@@ -21,13 +21,20 @@ io.on('connection', (socket) => {
     
 
     socket.on('join', (params, callback) => {
+        
         if (!isRealString(params.name) || !isRealString(params.room)){
-            return callback('Invalid information')
+            return callback('Invalid information');
+        }
+
+        params.room = params.room.toLowerCase();
+        if(users.isAvailableName(params.name)){
+            return callback('This name is already taken');
         }
 
         socket.join(params.room);
         users.removeUser(socket.id);
         users.addUser(socket.id, params.name, params.room);
+        console.log(users.getActiveRooms());
 
         io.to(params.room).emit('updateUserList', users.getUsersList(params.room));
         socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat room'));
@@ -61,9 +68,12 @@ io.on('connection', (socket) => {
 });
 
 
+
 app.use(express.static(publicPath));
 
 //-------requests-------\\
-
+app.post('/rooms', (req, res) => {
+    res.json({rooms: [1,2,4,5]});
+})
 
 server.listen(port, () => console.log(`Server is running on port ${port}`));
